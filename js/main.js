@@ -1,9 +1,9 @@
 class Player {
     constructor(){
-        this.positionX = 50;
-        this.positionY = 0;
-        this.width = 30;
         this.height = 10;
+        this.width = 30;
+        this.positionX = 50 - (this.width/2);
+        this.positionY = 0;
         this.domElement = null;
 
         this.createDomElement();
@@ -35,10 +35,10 @@ class Player {
 
 class Obstacle {
     constructor(){
-        this.positionX = 50;
-        this.positionY = 100;
-        this.width = 30;
+        this.width = 20;
         this.height = 10;
+        this.positionX = Math.floor(Math.random() * (100 - this.width + 1)); // random number between 0 and (100 - width)
+        this.positionY = 100;
         this.domElement = null;
         
         this.createDomElement()
@@ -77,6 +77,14 @@ setInterval(() => {
 setInterval(() => {
   obstacleArry.forEach(function (e) {
     e.moveDown();
+    
+    if( e.positionY < 0 - e.height ){    
+            console.log("remove....")
+          e.domElement.remove(); //remove from the dom
+          obstacleArry.shift(e)
+        }
+    
+    
     if (
         player.positionX < e.positionX + e.width &&
         player.positionX + player.width > e.positionX &&
